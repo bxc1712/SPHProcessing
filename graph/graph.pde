@@ -1,98 +1,77 @@
-float[] values = new float[20];
-float plotX1, plotX2, plotY1, plotY2;
-int leftMargin = 20;
-int topMargin = 100;
-int plotHeight = 250;
-float timer = 0.0;
 PFont helvetica;
 
+// - Grid Template -
+// Y axis line
+float yAxisX = 20;
+float yAxisY1 = 10;
+float yAxisY2 = 300;
+//////////////////////////
+
+// - Data Vars -
+Table sauData;
+int happiness;
+int entryId;
+String time;
+
+IntList happyList;
+IntList entryList;
+StringList timeList;
+
+// - Data Point Spacing -
+//Padding of Graph
+float xPadding=100;
+float yPadding=100;
+//Padding of Points
+float xPointPad=15;
+float yPointPad=50;
+
 void setup() {
-  size(640, 480);
-  smooth(4);
+  size(600, 480);
   helvetica = createFont("Helvetica-Bold", 14);
   textFont(helvetica);
   
-  generateValues();
+  happyList = new IntList();
+  timeList = new StringList();
+  entryList = new IntList();
+  sauData = loadTable("feeds.csv","header");
   
-  // set plot size
-  plotX1 = leftMargin;
-  plotX2 = width - leftMargin;
-  plotY1 = topMargin;
-  plotY2 = height - topMargin;
+  for (TableRow row : sauData.rows()) {
+    entryId = row.getInt("entry_id");
+    happiness = row.getInt("field1");
+    time = row.getString("created_at");
+    entryList.append(entryId);
+    happyList.append(happiness);
+    timeList.append(time);
+  }
+   //println(entryList.get(0));
+   //println(happyList.get(0));
+   //point(entryId,happiness);
 }
 
 void draw() {
-  background(0);
+  background(255);
+  // Draw Y axis line
+  //line(yAxisX,yAxisY1,yAxisX,yAxisY2);
   
-  // draw plot bg
-  fill(40);
-  noStroke();
-  rectMode(CORNERS);
-  rect(plotX1, plotY1, plotX2, plotY2);
-  
-  //line(plotX1, height - topMargin, plotX2, height - topMargin);
-  //line(plotX1, height - topMargin, plotX1, height - topMargin - plotHeight);
-  
-  noFill();
-  stroke(255);
-  strokeWeight(2);  
-  beginShape();
-  
-  float x, y;
-  
-  /*
-  // double curve vertext points
-  x = map(0, 0, values.length-1, plotX1, plotX2);
-  y = map(values[0], 0, 200, height - topMargin, height - topMargin - plotHeight);
-  curveVertex(x, y);
-  */
-  
-  for (int i = 0; i < values.length; i++) {
-   x = map(i, 0, values.length-1, plotX1, plotX2);
-   y = map(values[i], 0, 200, height - topMargin, height - topMargin - plotHeight);
-   vertex(x, y);
-  }
-  
-  /*
-  // double curve vertext points
-  x = map(values.length-1, 0, values.length-1, plotX1, plotX2);
-  y = map(values[values.length-1], 0, 200, height - topMargin, height - topMargin - plotHeight);
-  curveVertex(x, y); 
-  */
-  
-  endShape();
-  
-  // draw points on mouse over
-  for (int i = 0; i < values.length; i++) {
-    x = map(i, 0, values.length-1, plotX1, plotX2);
-    y = map(values[i], 0, 200, height - topMargin, height - topMargin - plotHeight);
-       
-    // check mouse pos
-    // float delta = dist(mouseX, mouseY, x, y);
-    float delta = abs(mouseX - x);
-    if ((delta < 15) && (y > plotY1) && (y < plotY2)) {
-      stroke(255);
-      fill(0);
-      ellipse(x, y, 8, 8);
-      
-      int labelVal = round(values[i]);
-      Label label = new Label("" + labelVal, x, y);
+  // Plot Graph
+  strokeWeight(4);
+  for(int i=0;i<entryList.size();i++) {
+    float xVar=entryList.get(i)*xPointPad+xPadding;
+    float yVar=happyList.get(i)*yPointPad+yPadding;
+    point(xVar,yVar);
+    
+    if (mouseOverPoint(xVar,yVar)){
+      strokeWeight(2);
+      fill(255);
+      ellipse(xVar,yVar,8,8);
     }
   }
 }
 
-void keyPressed() {
-  generateValues();
-}
-
-void generateValues() {
-  for (int i = 0; i < values.length; i++) {
-    //values[i] = (int) random(200);
-    values[i] = noise(timer) * 200;
-    timer += 0.7;
+boolean mouseOverPoint(float x, float y){
+  if (mouseX==x && mouseY==y){
+    return true;
+  } else{
+    return false;
   }
-  
-  // get min/max range
-  plotX1 = leftMargin;
-  plotX2 = width - plotX1;
 }
