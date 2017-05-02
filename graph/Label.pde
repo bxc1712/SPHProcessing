@@ -1,23 +1,22 @@
 class Label {
   
-  Label(String txt, float x, float y) {
+  Label(String txt,float x, float y) {
     
     // get text width
-    float labelW = textWidth(txt);
+    float labelW;
+    float labelH;
     
-    // check if label would go beyond screen dims
-    if (x + labelW + 20 > width) {
-      x -= labelW + 20;
-    }
+    labelW = textWidth(txt);
+    labelH = textAscent()+textDescent();
     
-    // draw bg
+    //Container
     fill(255);
-    noStroke();
-    rectMode(CORNER); // note: this is the default mode. confusing b/c similar to CORNERS (plural)
-    rect(x+10, y-30, labelW+10, 22); 
+    rectMode(CENTER);
+    rect(x, y-20, labelW+10, 22); 
     
-    // draw text
+    // Text
     fill(0);
-    text(txt, x+15, y-15);
+    textAlign(CENTER);
+    text(txt, x, y-15);
   }
 }
