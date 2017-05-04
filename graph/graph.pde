@@ -39,17 +39,19 @@ float pSize=10;
 float xPadding;
 float yPadding;
 //Padding of Points
-float xPointPad=50;
+float xPointPad=.5;
 float yPointPad=50;
+float faceIconPad=0;
 
 // - Labels Class -
 pointLabel label;
 
 // - ControlP5 Stuff -
 ControlP5 cp5;
-int buttonHeight = 25;
-int buttonWidth = 150;
+int buttonHeight;
+int buttonWidth;
 int selectedButton = 0;
+int buttonYPos;
 
 //Button colors
 color artesanoColor = #f62da8;
@@ -57,10 +59,14 @@ color dormsColor = #00a8f5;
 color magicColor = #ff9600;
 color pointColor;
 
+
 void setup() {
   fullScreen();
-  xPadding=100;
+  xPadding=width-(width-100);
   yPadding=height-500;
+  buttonYPos=height/3;
+  buttonWidth=width/15;
+  buttonHeight=height/25;
   helvetica = createFont("Helvetica-Bold", 14);
   textFont(helvetica);
   
@@ -80,20 +86,20 @@ void setup() {
   
   cp5.addButton("artesano")
      .setValue(2)
-     .setPosition(200,100)
+     .setPosition(width/2,buttonYPos)
      .setSize(buttonWidth,buttonHeight)
      .setColorBackground(artesanoColor)
      .setColorForeground(#ba217e)
      ;
   cp5.addButton("dorms")
      .setValue(1)
-     .setPosition(200,200)
+     .setPosition(width/1.5,buttonYPos)
      .setSize(buttonWidth,buttonHeight)
      .setColorBackground(dormsColor)
      ;
   cp5.addButton("magic")
      .setValue(3)
-     .setPosition(200,300)
+     .setPosition(width/3,buttonYPos)
      .setSize(buttonWidth,buttonHeight)
      .setColorBackground(magicColor)
      .setColorForeground(#d87f00)
@@ -128,6 +134,7 @@ void draw() {
       break;
   }
   plotGraph(pointColor);
+  frame();
 }
 
 // Store values into Lists
@@ -174,6 +181,7 @@ void plotGraph(color pColor){
     xVar=entryList.get(i)*xPointPad+xPadding;
     yVar=happyList.get(i)*yPointPad+yPadding;
     fill(pColor);
+    stroke(pColor);
     ellipse(xVar,yVar,pSize,pSize);
     noFill();
     vertex(xVar,yVar);
@@ -188,10 +196,30 @@ void plotGraph(color pColor){
     // If so show response
     if (mouseOverPoint(xVar,yVar,pSize)){
       noFill();
+      stroke(pColor);
       ellipse(xVar,yVar,pSize+10,pSize+10);
       // Show text box with info
       label = new pointLabel("Test Text",xVar,yVar);
     }
+  }
+}
+
+//Draw frame for graph
+//EX: lines, smilies
+void frame(){
+  //Lines
+  stroke(200,102);
+  xVar=entryList.get(0)*faceIconPad+xPadding;
+  for(int i=0; i<5; i++){
+    yVar=i*yPointPad+yPadding;
+    line(xVar,yVar, entryList.size(),yVar);
+  }
+  
+  //Smilies
+  xVar=entryList.get(0)*faceIconPad+xPadding;
+  for(int i=0; i<5; i++){
+    yVar=i*yPointPad+yPadding;
+    ellipse(xVar,yVar, pSize+30,pSize+30);
   }
 }
 
