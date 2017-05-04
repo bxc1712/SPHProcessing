@@ -1,22 +1,22 @@
 class Slider {
-  boolean overButton = false;
-  float bWidth;
-  float bHeight;
+  boolean overHandle = false;
+  float sliderWidth;
+  float handleHeight;
+  //Slider Container
+  float containerWidth;
+  float screenWidth;
+  float screenHeight;
   
-  Slider(float x, float y, float width, float height) {
+  Slider(float width,float height) {
+    screenWidth=width;
+    screenHeight=height;
   }
   
-  boolean overButton(int x, int y, float width, float height)  {
-    if (mouseX >= x && mouseX <= x+width && 
-        mouseY >= y && mouseY <= y+height) {
-      return true;
-    } else {
-      return false;
-    }
+  void draw(){
   }
   
   void mousePressed(){
-    if(overButton){
+    if(overHandle){
       
     }
   }

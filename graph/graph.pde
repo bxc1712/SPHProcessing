@@ -29,6 +29,10 @@ String[] splitTime;
 IntList happyList;
 IntList entryList;
 StringList timeList;
+
+//Arrays for smile icons
+String[] imageName={"1.png","2.png","3.png","4.png","5.png"};
+PImage[] smileList=new PImage[imageName.length];
 //Dictionary storage
 IntDict storedRows;
 
@@ -39,9 +43,9 @@ float pSize=10;
 float xPadding;
 float yPadding;
 //Padding of Points
-float xPointPad=.5;
+float xPointPad=50;
 float yPointPad=50;
-float faceIconPad=0;
+float faceIconPad=-10;
 
 // - Labels Class -
 pointLabel label;
@@ -59,15 +63,14 @@ color dormsColor = #00a8f5;
 color magicColor = #ff9600;
 color pointColor;
 
-
 void setup() {
-  fullScreen();
+  fullScreen(P3D);
   xPadding=width-(width-100);
   yPadding=height-500;
   buttonYPos=height/3;
   buttonWidth=width/15;
   buttonHeight=height/25;
-  helvetica = createFont("Helvetica-Bold", 14);
+  helvetica = createFont("Helvetica-Bold", 20);
   textFont(helvetica);
   
   storedRows = new IntDict();
@@ -90,12 +93,14 @@ void setup() {
      .setSize(buttonWidth,buttonHeight)
      .setColorBackground(artesanoColor)
      .setColorForeground(#ba217e)
+     .setFont(helvetica)
      ;
   cp5.addButton("dorms")
      .setValue(1)
      .setPosition(width/1.5,buttonYPos)
      .setSize(buttonWidth,buttonHeight)
      .setColorBackground(dormsColor)
+     .setFont(helvetica)
      ;
   cp5.addButton("magic")
      .setValue(3)
@@ -103,6 +108,7 @@ void setup() {
      .setSize(buttonWidth,buttonHeight)
      .setColorBackground(magicColor)
      .setColorForeground(#d87f00)
+     .setFont(helvetica)
      ;
 }
 
@@ -204,7 +210,7 @@ void plotGraph(color pColor){
   }
 }
 
-//Draw frame for graph
+//Draw stuff for graph
 //EX: lines, smilies
 void frame(){
   //Lines
@@ -212,16 +218,21 @@ void frame(){
   xVar=entryList.get(0)*faceIconPad+xPadding;
   for(int i=0; i<5; i++){
     yVar=i*yPointPad+yPadding;
-    line(xVar,yVar, entryList.size(),yVar);
+    line(xVar,yVar,-1,entryList.size(),yVar,-1);
   }
   
   //Smilies
+  imageMode(CENTER);
   xVar=entryList.get(0)*faceIconPad+xPadding;
-  for(int i=0; i<5; i++){
+  for(int i=0; i<imageName.length; i++){
     yVar=i*yPointPad+yPadding;
-    ellipse(xVar,yVar, pSize+30,pSize+30);
+    String imgName=imageName[i];
+    smileList[i]=loadImage(imgName);
+    image(smileList[i],xVar,yVar,pSize+30,pSize+30);
   }
 }
+
+//
 
 // Mouse over point check
 boolean mouseOverPoint(float x, float y, float diameter){
