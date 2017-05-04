@@ -64,7 +64,7 @@ color magicColor = #ff9600;
 color pointColor;
 
 void setup() {
-  fullScreen(P3D);
+  fullScreen();
   xPadding=width-(width-100);
   yPadding=height-500;
   buttonYPos=height/3;
@@ -115,7 +115,6 @@ void setup() {
 void draw() {
   background(255);
   strokeWeight(2);
-  
   // Switch cases to check what button is pressed
   switch(selectedButton){
     case 1:
@@ -139,8 +138,8 @@ void draw() {
     default:
       break;
   }
-  plotGraph(pointColor);
   frame();
+  plotGraph(pointColor);
 }
 
 // Store values into Lists
@@ -218,7 +217,7 @@ void frame(){
   xVar=entryList.get(0)*faceIconPad+xPadding;
   for(int i=0; i<5; i++){
     yVar=i*yPointPad+yPadding;
-    line(xVar,yVar,-1,entryList.size(),yVar,-1);
+    line(xVar,yVar,entryList.size(),yVar);
   }
   
   //Smilies
