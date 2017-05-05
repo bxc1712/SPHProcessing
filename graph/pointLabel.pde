@@ -6,6 +6,8 @@ class pointLabel {
     float labelW;
     float labelH;
     
+    
+    textSize(14);
     labelW = textWidth(txt);
     labelH = textAscent()+textDescent();
     

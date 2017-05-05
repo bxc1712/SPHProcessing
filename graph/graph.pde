@@ -33,6 +33,15 @@ StringList timeList;
 //Arrays for smile icons
 String[] imageName={"1.png","2.png","3.png","4.png","5.png"};
 PImage[] smileList=new PImage[imageName.length];
+//Title Text
+float titleX;
+float titleY;
+//Logo Image
+PImage logo;
+int logoWidth;
+int logoHeight;
+float logoX;
+float logoY;
 //Dictionary storage
 IntDict storedRows;
 
@@ -44,18 +53,24 @@ float xPadding;
 float yPadding;
 //Padding of Points
 float xPointPad=50;
-float yPointPad=50;
+float yPointPad=60;
 float faceIconPad=-10;
 
 // - Labels Class -
 pointLabel label;
+// - Slider Class -
+Slider timeSlider;
 
 // - ControlP5 Stuff -
 ControlP5 cp5;
 int buttonHeight;
 int buttonWidth;
 int selectedButton = 0;
-int buttonYPos;
+float buttonYPos;
+
+float magicXPos;
+float artesanoXPos;
+float dormsXpos;
 
 //Button colors
 color artesanoColor = #f62da8;
@@ -65,12 +80,31 @@ color pointColor;
 
 void setup() {
   fullScreen();
+  
   xPadding=width-(width-100);
   yPadding=height-500;
-  buttonYPos=height/3;
-  buttonWidth=width/15;
-  buttonHeight=height/25;
+  
+  magicXPos=width/3-(buttonWidth/2);
+  artesanoXPos=width/2-(buttonWidth/2);
+  dormsXpos=width/1.5-(buttonWidth/2);
+  buttonYPos=height/2.25;
+  
+  buttonWidth=width/7;
+  buttonHeight=height/20;
+  
+  //Title position values
+  titleX=width/2;
+  titleY=height/3;
+  
+  //Logo values
+  logoWidth=width/5;
+  logoHeight=height/5;
+  
+  logoX=width/2;
+  logoY=height/8;
+  
   helvetica = createFont("Helvetica-Bold", 20);
+  imageName=reverse(imageName); //Reverse 
   textFont(helvetica);
   
   storedRows = new IntDict();
@@ -87,28 +121,33 @@ void setup() {
   
   cp5 = new ControlP5(this);
   
-  cp5.addButton("artesano")
-     .setValue(2)
-     .setPosition(width/2,buttonYPos)
-     .setSize(buttonWidth,buttonHeight)
-     .setColorBackground(artesanoColor)
-     .setColorForeground(#ba217e)
-     .setFont(helvetica)
-     ;
-  cp5.addButton("dorms")
-     .setValue(1)
-     .setPosition(width/1.5,buttonYPos)
-     .setSize(buttonWidth,buttonHeight)
-     .setColorBackground(dormsColor)
-     .setFont(helvetica)
-     ;
   cp5.addButton("magic")
      .setValue(3)
-     .setPosition(width/3,buttonYPos)
+     .setPosition(magicXPos,buttonYPos)
      .setSize(buttonWidth,buttonHeight)
      .setColorBackground(magicColor)
      .setColorForeground(#d87f00)
+     .setColorActive(#ffa100)
      .setFont(helvetica)
+     .getCaptionLabel().align(CENTER,CENTER)
+     ;
+  cp5.addButton("artesano")
+     .setValue(2)
+     .setPosition(artesanoXPos,buttonYPos)
+     .setSize(buttonWidth,buttonHeight)
+     .setColorBackground(artesanoColor)
+     .setColorForeground(#ba217e)
+     .setColorActive(#ff4cb4)
+     .setFont(helvetica)
+     .getCaptionLabel().align(CENTER,CENTER)
+     ;
+  cp5.addButton("dorms")
+     .setValue(1)
+     .setPosition(dormsXpos,buttonYPos)
+     .setSize(buttonWidth,buttonHeight)
+     .setColorBackground(dormsColor)
+     .setFont(helvetica)
+     .getCaptionLabel().align(CENTER,CENTER)
      ;
 }
 
@@ -139,6 +178,7 @@ void draw() {
       break;
   }
   frame();
+  activeButton();
   plotGraph(pointColor);
 }
 
@@ -212,6 +252,12 @@ void plotGraph(color pColor){
 //Draw stuff for graph
 //EX: lines, smilies
 void frame(){
+  //Title Text
+  textSize(width/25);
+  textAlign(CENTER);
+  fill(dormsColor);
+  text("HOW HAPPY IS RIT?",titleX,titleY);
+  
   //Lines
   stroke(200,102);
   xVar=entryList.get(0)*faceIconPad+xPadding;
@@ -229,9 +275,11 @@ void frame(){
     smileList[i]=loadImage(imgName);
     image(smileList[i],xVar,yVar,pSize+30,pSize+30);
   }
+  
+  //Title Logo
+  logo = loadImage("logo.png");
+  image(logo,logoX,logoY,logoWidth,logoHeight);
 }
-
-//
 
 // Mouse over point check
 boolean mouseOverPoint(float x, float y, float diameter){
@@ -265,6 +313,21 @@ void dorms(){
 void magic(){
   selectedButton = 3;
   println("Magic Test");
+}
+
+//Selected button is active
+void activeButton(){
+  boolean isMagicOn=cp5.getController("magic").isMousePressed();
+  boolean isArtesanoOn=cp5.getController("artesano").isMousePressed();
+  boolean isDormsOn=cp5.getController("dorms").isMousePressed();
+  
+  color selected = color(#ffffff);
+  
+  if(isMagicOn){
+    rectMode(CENTER);
+    fill(255);
+    rect(magicXPos,buttonYPos,buttonWidth,buttonHeight);
+  }
 }
 
 
