@@ -58,8 +58,16 @@ float faceIconPad=-10;
 
 // - Labels Class -
 pointLabel label;
+
 // - Slider Class -
 Slider timeSlider;
+//Slider Stuff
+float defaultMinX;
+float defaultMaxX;
+float minX;
+float maxX;
+float minOffSetX;
+float maxOffSetX;
 
 // - ControlP5 Stuff -
 ControlP5 cp5;
@@ -80,7 +88,7 @@ color magicColor = #ff9600;
 color pointColor;
 
 void setup() {
-  fullScreen();
+  size(1280,720);
   
   xPadding=width-(width-100);
   yPadding=height-500;
@@ -93,6 +101,14 @@ void setup() {
   artesanoXPos=width/2-(buttonWidth/2);
   dormsXpos=width/1.5-(buttonWidth/2);
   buttonYPos=height/2.5;
+  
+  //Slider Init
+  defaultMinX=width/3;
+  defaultMaxX=width/1.5;
+  minX=defaultMinX;
+  maxX=defaultMaxX;
+  minOffSetX=0;
+  maxOffSetX=0;
   
   //Title position values
   titleX=width/2;
@@ -180,10 +196,23 @@ void draw() {
       selectedButton = 0;
     break;
   }
-  timeSlider= new Slider(width,height,pointColor);
+  timeSlider= new Slider(width,height,pointColor,minX,maxX);
   frame();
   activeButton();
   plotGraph(pointColor);
+}
+
+void mousePressed(){
+  minOffSetX=mouseX-minX;
+  maxOffSetX=mouseX-maxX;
+}
+void mouseDragged(){
+  if(timeSlider.overMin==true){
+    minX=mouseX-minOffSetX;
+  }
+  if(timeSlider.overMax==true){
+    maxX=mouseX-maxOffSetX;
+  }
 }
 
 // Store values into Lists
@@ -370,7 +399,6 @@ void activeButton(){
     break;
   }
 }
-
 
 //Some Sorting?
 //void sortByDate(){

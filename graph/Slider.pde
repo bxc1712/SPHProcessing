@@ -4,9 +4,7 @@ class Slider {
   //SliderHandle Vars
   float timeWidth;
   float minHandleX;
-  float minHandleY;
   float maxHandleX;
-  float maxHandleY;
   //SliderHandle Default Positions
   float defaultMinX;
   float defaultMaxX;
@@ -20,13 +18,11 @@ class Slider {
   float screenWidth;
   float screenHeight;
   
-  Slider(float width,float height,color graphColor) {
+  Slider(float width,float height,color graphColor,float leftHandleX,float rightHandleX) {
     screenWidth=width;
     screenHeight=height;
     
     //Default vars
-    defaultMinX=width/3;
-    defaultMaxX=width/1.5;
     defaultY=height/1.15;
     areaColor=graphColor;
     
@@ -35,11 +31,12 @@ class Slider {
     containerMaxX=screenWidth/1.07;
     
     //Init Handle vars
-    minHandleX=defaultMinX;
-    maxHandleX=defaultMaxX;
+    minHandleX=leftHandleX;
+    maxHandleX=rightHandleX;
     overMin=overHandle(minHandleX,defaultY,20);
     overMax=overHandle(maxHandleX,defaultY,20);
     
+    //Call func to make whole slider
     sliderContainer();
     slider();
     sliderHandles(minHandleX,maxHandleX);
@@ -51,14 +48,14 @@ class Slider {
     stroke(200,200);
     line(containerMinX,defaultY,containerMaxX,defaultY);
   }
-  
   //Slider
   void slider(){
     strokeWeight(10);
     stroke(areaColor);
     line(minHandleX,defaultY,maxHandleX,defaultY);
   }
-  void sliderHandles(float minX, float maxX){
+  //Slider Handles
+  void sliderHandles(float minX,float maxX){
     //Handles
     //Left Handle
     stroke(100);
@@ -68,10 +65,6 @@ class Slider {
     ellipse(minX,defaultY,20,20);
     //Right Handle
     ellipse(maxX,defaultY,20,20);
-    
-    
-    println(overMin);
-    println(overMax);
   }
   
   boolean overHandle(float x, float y, float diameter){
@@ -83,10 +76,5 @@ class Slider {
     } else{
       return false;
     }
- }
- 
- void mouseDragged(){
-   if(overMin){
-   }
  }
 }
