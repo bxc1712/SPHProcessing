@@ -4,11 +4,13 @@ class Bubble{
   private float xPos;
   private float yPos;
   private Movie m;
+  private int col; 
   
-  Bubble(float x, Movie M){
-    xPos = x;
-    yPos = height - 500;
+  Bubble(Movie M, int c){
+    yPos = height;
     m = M;
-    println(m);
+    col = c;
+    xPos = col * 100;
+    //println("new movie");
   }
 }

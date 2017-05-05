@@ -5,214 +5,33 @@ Movie dorm2;
 Movie dorm3;
 Movie dorm4;
 Movie dorm5;
-//Movie dorm6;
-//Movie dorm7;
-//Movie dorm8;
-//Movie dorm9;
-//Movie dorm10;
-//Movie dorm11;
-//Movie dorm12;
-//Movie dorm13;
-//Movie dorm14;
-//Movie dorm15;
 
-//Movie magic1;
-//Movie magic2;
-//Movie magic3;
-//Movie magic4;
-//Movie magic5;
-//Movie magic6;
-//Movie magic7;
-//Movie magic8;
-//Movie magic9;
-//Movie magic10;
-//Movie magic11;
-//Movie magic12;
-//Movie magic13;
-//Movie magic14;
-//Movie magic15;
-
-//Movie sau1;
-//Movie sau2;
-//Movie sau3;
-//Movie sau4;
-//Movie sau5;
-//Movie sau6;
-//Movie sau7;
-//Movie sau8;
-//Movie sau9;
-//Movie sau10;
-//Movie sau11;
-//Movie sau12;
-//Movie sau13;
-//Movie sau14;
-//Movie sau15;
-
-int pTime;
-int dTime;
+int second;
 int videoWidth;
 boolean createdBubble;
 
 ArrayList<Bubble> bubbles = new ArrayList<Bubble>();
 ArrayList<Movie> movies = new ArrayList<Movie>();
+ArrayList<Column> freeCols = new ArrayList<Column>();
+ArrayList<Column> usedCols = new ArrayList<Column>();
+//ArrayList<Integer> freeCols = new ArrayList<Integer>();
+//ArrayList<Integer> usedCols = new ArrayList<Integer>();
 
 void settings(){
   size(1600, 1000); 
 }
 
 void setup(){
-
   videoWidth = 500;
   createdBubble = false;
   
-  dorm1 = new Movie(this,"Dorm_Event_Happiest.mov");
-  dorm2 = new Movie(this,"Dorm_Event_Happy.mov");
-  dorm3 = new Movie(this,"Dorm_Event_Neutral.mov");
-  dorm4 = new Movie(this,"Dorm_Event_Sad.mov");
-  dorm5 = new Movie(this,"Dorm_Event_Saddest.mov"); 
-  //dorm6 = new Movie(this,"Dorm_Face_Happiest.mov"); 
-  //dorm7 = new Movie(this,"Dorm_Face_Happy.mov");
-  //dorm8 = new Movie(this,"Dorm_Face_Neutral.mov");
-  //dorm9 = new Movie(this,"Dorm_Face_Sad.mov");
-  //dorm10 = new Movie(this, "Dorm_Face_Saddest.mov");
-  //dorm11 = new Movie(this,"Dorm_Location.mov");
-  //dorm12 = new Movie(this,"Dorm_Weather_Cloudy.mov");
-  //dorm13 = new Movie(this,"Dorm_Weather_Rain.mov");
-  //dorm14 = new Movie(this,"Dorm_Weather_Snowy.mov");
-  //dorm15 = new Movie(this,"Dorm_Weather_Sunny.mov");
-  
-  //magic1 = new Movie(this,"Magic_Event_Happiest.mov");
-  //magic2 = new Movie(this,"Magic_Event_Happy.mov");
-  //magic3 = new Movie(this,"Magic_Event_Neutral.mov");
-  //magic4 = new Movie(this,"Magic_Event_Sad.mov");
-  //magic5 = new Movie(this,"Magic_Event_Saddest.mov");
-  //magic6 = new Movie(this,"Magic_Face_Happiest.mov");
-  //magic7 = new Movie(this,"Magic_Face_Happy.mov");
-  //magic8 = new Movie(this,"Magic_Face_Neutral.mov");
-  //magic9 = new Movie(this,"Magic_Face_Sad.mov");
-  //magic10 = new Movie(this,"Magic_Face_Saddest.mov");
-  //magic11 = new Movie(this,"Magic_Location.mov");
-  //magic12 = new Movie(this,"Magic_Weather_Cloudy.mov");
-  //magic13 = new Movie(this,"Magic_Weather_Rain.mov");
-  //magic14 = new Movie(this,"Magic_Weather_Snowy.mov");
-  //magic15 = new Movie(this,"Magic_Weather_Sunny.mov");
-   
-  //sau1 = new Movie(this,"SAU_Event_Happiest.mov");
-  //sau2 = new Movie(this,"SAU_Event_Happy.mov");
-  //sau3 = new Movie(this,"SAU_Event_Neutral.mov");
-  //sau4 = new Movie(this,"SAU_Event_Sad.mov");
-  //sau5 = new Movie(this,"SAU_Event_Saddest.mov");
-  //sau6 = new Movie(this,"SAU_Face_Happiest.mov");
-  //sau7 = new Movie(this,"SAU_Face_Happy.mov");
-  //sau8 = new Movie(this,"SAU_Face_Neutral.mov");
-  //sau9 = new Movie(this,"SAU_Face_Sad.mov");
-  //sau10 = new Movie(this,"SAU_Face_Saddest.mov");
-  //sau11 = new Movie(this,"SAU_Location.mov");
-  //sau12 = new Movie(this,"SAU_Weather_Cloudy.mov");
-  //sau13 = new Movie(this,"SAU_Weather_Rain.mov");
-  //sau14 = new Movie(this,"SAU_Weather_Snowy.mov");
-  //sau15 = new Movie(this,"SAU_Weather_Sunny.mov");
-
-  movies.add(dorm1);
-  movies.add(dorm2);
-  movies.add(dorm3);
-  movies.add(dorm4);
-  movies.add(dorm5);
-  //movies.add(dorm6);
-  //movies.add(dorm7);
-  //movies.add(dorm8);
-  //movies.add(dorm9);
-  //movies.add(dorm10);
-  //movies.add(dorm11);
-  //movies.add(dorm12);
-  //movies.add(dorm13);
-  //movies.add(dorm14);
-  //movies.add(dorm15);
-  
-  //movies.add(magic1);
-  //movies.add(magic2);
-  //movies.add(magic3);
-  //movies.add(magic4);
-  //movies.add(magic5);
-  //movies.add(magic6);
-  //movies.add(magic7);
-  //movies.add(magic8);
-  //movies.add(magic9);
-  //movies.add(magic10);
-  //movies.add(magic11);
-  //movies.add(magic12);
-  //movies.add(magic13);
-  //movies.add(magic14);
-  //movies.add(magic15);
-  
-  //movies.add(sau1);
-  //movies.add(sau2);
-  //movies.add(sau3);
-  //movies.add(sau4);
-  //movies.add(sau5);
-  //movies.add(sau6);
-  //movies.add(sau7);
-  //movies.add(sau8);
-  //movies.add(sau9);
-  //movies.add(sau10);
-  //movies.add(sau11);
-  //movies.add(sau12);
-  //movies.add(sau13);
-  //movies.add(sau14);
-  //movies.add(sau15);
-  
-  dorm1.loop();
-  dorm2.loop();
-  dorm3.loop();
-  dorm4.loop();
-  dorm5.loop();
-  //dorm6.loop();
-  //dorm7.loop();
-  //dorm8.loop();
-  //dorm9.loop();
-  //dorm10.loop();
-  //dorm11.loop();
-  //dorm12.loop();
-  //dorm13.loop();
-  //dorm14.loop();
-  //dorm15.loop();
-  
-  //magic1.loop();
-  //magic2.loop();
-  //magic3.loop();
-  //magic4.loop();
-  //magic5.loop();
-  //magic6.loop();
-  //magic7.loop();
-  //magic8.loop();
-  //magic9.loop();
-  //magic10.loop();
-  //magic11.loop();
-  //magic12.loop();
-  //magic13.loop();
-  //magic14.loop();
-  //magic15.loop();
-  
-  //sau1.loop();
-  //sau2.loop();
-  //sau3.loop();
-  //sau4.loop();
-  //sau5.loop();
-  //sau6.loop();
-  //sau7.loop();
-  //sau8.loop();
-  //sau9.loop();
-  //sau10.loop();
-  //sau11.loop();
-  //sau12.loop();
-  //sau13.loop();
-  //sau14.loop();
-  //sau15.loop();
-  
-  //for(int i = 1; i < movies.size(); i++){
-  //  movies.get(i).loop();
+  //***POPULATE AVAILABLE COLS***//
+  //for(int i = 0; i < 25; i++){
+  //  freeCols.add(i);
   //}
-  
+  second = 0;
+  createMovies();
+  createColumns();
 }
 
 void draw(){
@@ -223,53 +42,99 @@ void draw(){
     image(bubbles.get(i).m,bubbles.get(i).xPos, bubbles.get(i).yPos);
     bubbles.get(i).yPos--;
   }
+  //println(second()+ " second");
   
-  createBubble();
+  calcDelay();
+  
+  randomBubbles();
   deleteBubbles();
 }
 
-void movieEvent(Movie m){
-    m.read();
+//***REMOVES 1 FROM DELAY FOR NEW BUBBLES***//
+void calcDelay(){
+  if(second != second()){
+    second = second();
+    for(int i = 0; i < usedCols.size(); i++){
+        Column c = usedCols.get(i);
+        c.delay--;
+        print(c.col + ": " + c.delay);
+        if(c.delay <= 0){
+           usedCols.remove(c);
+           freeCols.add(c);
+        }
+    }
+  }   
 }
 
-//***CREATE BUBBLE USING 'N' KEY***//
+
+//***KEY HELPER FUNCTIONS***//
 void keyReleased(){
-    if(key == 'n'){
-     int rand = int(random(0,movies.size()));
-     int randx =int(random(width));
-     Bubble b = new Bubble(randx, movies.get(rand));  
-     bubbles.add(b);
-     //println("new ball");
+   if(key == 'n'){
+     createBubble();
+     //println("Bubbles = "+bubbles.size());
+     //println("Created bubble with N ");
+   }
+   
+   if(key == 'f'){
+     println("Free cols count = " + freeCols.size());
+     for(int i = 0; i < freeCols.size(); i++){
+        print("Free cols: " + freeCols.get(i).col + ", ");
+      }
+   }
+   
+   if(key == 'u'){
+     //println("Used Columns count = "+usedCols.size());
+     for(int i = 0; i < usedCols.size(); i++){
+        print("Used cols: " + usedCols.get(i).col + ", ");
+      }
+   }
+   
+   if(key == 'c'){
+     println("Free cols count = " + freeCols.size());
+     println("Used Columns count = "+usedCols.size()); 
+   }
+   
+   if(key == 'r'){
+     int randCol =int(random(freeCols.size()));
+     println("randCol = " + randCol);
+   }
+}
+  
+//***CREATE BUBBLE FUNCTION***//
+void createBubble(){
+  Bubble b;
+  Boolean inCols = false;
+  int rand = int(random(0,movies.size()));
+  int randCol =int(random(freeCols.size()));
+  //int randCol = 0;
+  //println(freeCols.get(randCol));
+  b = new Bubble(movies.get(rand), freeCols.get(randCol).col);
+  
+  for(int i = 0; i < usedCols.size(); i++){
+    if(freeCols.get(randCol) == usedCols.get(i)){
+      inCols = true;
     }
   }
+  
+  if(!inCols){
+    bubbles.add(b);
+    usedCols.add(freeCols.get(randCol));
+    usedCols.get(usedCols.size() - 1).delay = 10;
+    freeCols.remove(randCol);
+  }  
+}
 
 //***CREATE BUBBLES RANDOMLY EVERY 5s***//
-void createBubble(){
-  Boolean contact = true;
-  Bubble b;
+void randomBubbles(){
   if(second() % 5 == 0 && createdBubble == false){
-    while(contact){
-      Boolean tempContact = false;
-      int rand = int(random(0,movies.size()));
-      int randx =int(random(width));
-      b = new Bubble(randx, movies.get(rand));
-      for(int i = 0; i < bubbles.size(); i++){   
-          if(bubbleBounds(b, bubbles.get(i))){
-            tempContact = true;
-          }
-        }
-        if(tempContact == false){
-          contact = false;
-          createdBubble = true;
-        } else {
-          bubbles.remove(b);
-        }   
-      } 
+      createBubble();
+      createdBubble = true;
     }
   
   if(second() % 5 != 0){
     createdBubble = false;
   }
+  //createBubble();
 }
 
 //***DELETE BUBBLES BASED ON Y POS***//
@@ -281,12 +146,81 @@ void deleteBubbles(){
   }
 }
 
-//***KEEP BUBBLES FROM TOUCHING***//
-Boolean bubbleBounds(Bubble b1, Bubble b2){
-  if(b1.xPos > b2.xPos && b1.xPos < b2.xPos + videoWidth){
-    if(b1.yPos > b2.yPos && b1.yPos < b2.yPos + videoWidth){
-      return true;
-    }
-  }
-  return false;
+void movieEvent(Movie m){
+    m.read();
+}
+
+void createMovies(){
+  //***POPULATE ALL MOVIES***//
+  dorm1 = new Movie(this,"Dorm_Event_Happiest.mp4");
+  dorm2 = new Movie(this,"Dorm_Event_Happy.mp4");
+  dorm3 = new Movie(this,"Dorm_Event_Neutral.mp4");
+  dorm4 = new Movie(this,"Dorm_Event_Sad.mp4");
+  dorm5 = new Movie(this,"Dorm_Event_Saddest.mp4"); 
+
+  movies.add(dorm1);
+  movies.add(dorm2);
+  movies.add(dorm3);
+  movies.add(dorm4);
+  movies.add(dorm5);
+  
+  dorm1.loop();
+  dorm2.loop();
+  dorm3.loop();
+  dorm4.loop();
+  dorm5.loop();
+}
+
+void createColumns(){
+  Column col0 = new Column(0);
+  Column col1 = new Column(1);
+  Column col2 = new Column(2);
+  Column col3 = new Column(3);
+  Column col4 = new Column(4);
+  //Column col5 = new Column(5);
+  //Column col6 = new Column(6);
+  //Column col7 = new Column(7);
+  //Column col8 = new Column(8);
+  //Column col9 = new Column(9);
+  //Column col10 = new Column(10);
+  //Column col11 = new Column(11);
+  //Column col12 = new Column(12);
+  //Column col13 = new Column(13);
+  //Column col14 = new Column(14);
+  //Column col15 = new Column(15);
+  //Column col16 = new Column(16);
+  //Column col17 = new Column(17);
+  //Column col18 = new Column(18);
+  //Column col19 = new Column(19);
+  //Column col20 = new Column(20);
+  //Column col21 = new Column(21);
+  //Column col22 = new Column(22);
+  //Column col23 = new Column(23);
+  //Column col24 = new Column(24);
+  
+  freeCols.add(col0);
+  freeCols.add(col1);
+  freeCols.add(col2);
+  freeCols.add(col3);
+  freeCols.add(col4);
+  //freeCols.add(col5);
+  //freeCols.add(col6);
+  //freeCols.add(col7);
+  //freeCols.add(col8);
+  //freeCols.add(col9);
+  //freeCols.add(col10);
+  //freeCols.add(col11);
+  //freeCols.add(col12);
+  //freeCols.add(col13);
+  //freeCols.add(col14);
+  //freeCols.add(col15);
+  //freeCols.add(col16);
+  //freeCols.add(col17);
+  //freeCols.add(col18);
+  //freeCols.add(col19);
+  //freeCols.add(col20);
+  //freeCols.add(col21);
+  //freeCols.add(col22);
+  //freeCols.add(col23);
+  //freeCols.add(col24);
 }
