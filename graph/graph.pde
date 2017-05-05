@@ -1,6 +1,6 @@
-PFont helvetica;
 import controlP5.*;
-
+PFont font;
+PFont titleFont;
 // - Grid Template -
 // Y axis line
 float yAxisX = 20;
@@ -38,8 +38,8 @@ float titleX;
 float titleY;
 //Logo Image
 PImage logo;
-int logoWidth;
-int logoHeight;
+float logoWidth;
+float logoHeight;
 float logoX;
 float logoY;
 //Dictionary storage
@@ -65,7 +65,8 @@ Slider timeSlider;
 ControlP5 cp5;
 int buttonHeight;
 int buttonWidth;
-int selectedButton = 0;
+int selectedButton;
+int whichButtonOn;
 float buttonYPos;
 
 float magicXPos;
@@ -84,28 +85,30 @@ void setup() {
   xPadding=width-(width-100);
   yPadding=height-500;
   
+  buttonWidth=width/7;
+  buttonHeight=height/20;
+  whichButtonOn=0;
+  
   magicXPos=width/3-(buttonWidth/2);
   artesanoXPos=width/2-(buttonWidth/2);
   dormsXpos=width/1.5-(buttonWidth/2);
-  buttonYPos=height/2.25;
-  
-  buttonWidth=width/7;
-  buttonHeight=height/20;
+  buttonYPos=height/2.5;
   
   //Title position values
   titleX=width/2;
-  titleY=height/3;
+  titleY=height/3.5;
   
   //Logo values
-  logoWidth=width/5;
-  logoHeight=height/5;
+  logoWidth=width/3.5;
+  logoHeight=height/4;
   
   logoX=width/2;
   logoY=height/8;
   
-  helvetica = createFont("Helvetica-Bold", 20);
+  font = createFont("Lato-Bold.ttf", 20);
+  titleFont = createFont("Lato-Bold.ttf", 64);
   imageName=reverse(imageName); //Reverse 
-  textFont(helvetica);
+  
   
   storedRows = new IntDict();
   
@@ -116,39 +119,41 @@ void setup() {
   artesanoData = loadTable("artesano.csv","header");
   dormsData = loadTable("dorms.csv","header");
   magicData = loadTable("magic.csv","header");
-  
-  //storeData(magicData);
-  
+    
   cp5 = new ControlP5(this);
   
   cp5.addButton("magic")
      .setValue(3)
+     .activateBy(ControlP5.PRESSED)
      .setPosition(magicXPos,buttonYPos)
      .setSize(buttonWidth,buttonHeight)
      .setColorBackground(magicColor)
      .setColorForeground(#d87f00)
      .setColorActive(#ffa100)
-     .setFont(helvetica)
+     .setFont(font)
      .getCaptionLabel().align(CENTER,CENTER)
      ;
   cp5.addButton("artesano")
      .setValue(2)
+     .activateBy(ControlP5.PRESSED)
      .setPosition(artesanoXPos,buttonYPos)
      .setSize(buttonWidth,buttonHeight)
      .setColorBackground(artesanoColor)
      .setColorForeground(#ba217e)
      .setColorActive(#ff4cb4)
-     .setFont(helvetica)
+     .setFont(font)
      .getCaptionLabel().align(CENTER,CENTER)
      ;
   cp5.addButton("dorms")
      .setValue(1)
+     .activateBy(ControlP5.PRESSED)
      .setPosition(dormsXpos,buttonYPos)
      .setSize(buttonWidth,buttonHeight)
      .setColorBackground(dormsColor)
-     .setFont(helvetica)
+     .setFont(font)
      .getCaptionLabel().align(CENTER,CENTER)
      ;
+  selectedButton=1;
 }
 
 void draw() {
@@ -157,26 +162,25 @@ void draw() {
   // Switch cases to check what button is pressed
   switch(selectedButton){
     case 1:
-      stroke(dormsColor);
-      pointColor = dormsColor;
-      storeData(dormsData);
+      stroke(magicColor);
+      pointColor = magicColor;
+      storeData(magicData);
       selectedButton = 0;
-      break;
+    break;
     case 2:
       stroke(artesanoColor);
       pointColor = artesanoColor;
       storeData(artesanoData);
       selectedButton = 0;
-      break;
+    break;
     case 3:
-      stroke(magicColor);
-      pointColor = magicColor;
-      storeData(magicData);
+      stroke(dormsColor);
+      pointColor = dormsColor;
+      storeData(dormsData);
       selectedButton = 0;
-      break;
-    default:
-      break;
+    break;
   }
+  timeSlider= new Slider(width,height,pointColor);
   frame();
   activeButton();
   plotGraph(pointColor);
@@ -229,6 +233,7 @@ void plotGraph(color pColor){
     stroke(pColor);
     ellipse(xVar,yVar,pSize,pSize);
     noFill();
+    strokeWeight(2);
     vertex(xVar,yVar);
   }
   endShape();
@@ -256,10 +261,12 @@ void frame(){
   textSize(width/25);
   textAlign(CENTER);
   fill(dormsColor);
+  textFont(titleFont);
   text("HOW HAPPY IS RIT?",titleX,titleY);
   
   //Lines
   stroke(200,102);
+  strokeWeight(2);
   xVar=entryList.get(0)*faceIconPad+xPadding;
   for(int i=0; i<5; i++){
     yVar=i*yPointPad+yPadding;
@@ -302,17 +309,18 @@ void controlEvent(ControlEvent theEvent){
   println("Switched to: "+theEvent.getController().getName());
 }
 
+
+void magic(){
+  selectedButton = 1;
+  println("Magic Test");
+}
 void artesano(){
   selectedButton = 2;
   println("Artesano Test");
 }
 void dorms(){
-  selectedButton = 1;
-  println("Dorms Test");
-}
-void magic(){
   selectedButton = 3;
-  println("Magic Test");
+  println("Dorms Test");
 }
 
 //Selected button is active
@@ -322,11 +330,44 @@ void activeButton(){
   boolean isDormsOn=cp5.getController("dorms").isMousePressed();
   
   color selected = color(#ffffff);
+  float selectedWidth=buttonWidth+20;
+  float selectedHeight=buttonHeight+20;
   
   if(isMagicOn){
-    rectMode(CENTER);
-    fill(255);
-    rect(magicXPos,buttonYPos,buttonWidth,buttonHeight);
+    whichButtonOn=0;
+  }
+  if(isArtesanoOn){
+    whichButtonOn=1;
+  }
+  if(isDormsOn){
+    whichButtonOn=2;
+  }
+  rectMode(CORNER);
+  noFill();
+  switch(whichButtonOn){
+    case 0:
+      stroke(magicColor);
+      pushMatrix();
+      translate(-10,-10);
+      rect(magicXPos,buttonYPos,selectedWidth,selectedHeight);
+      popMatrix();
+    break;
+    case 1:
+      stroke(artesanoColor);
+      pushMatrix();
+      translate(-10,-10);
+      rect(artesanoXPos,buttonYPos,selectedWidth,selectedHeight);
+      popMatrix();
+    break;
+    case 2:
+      stroke(dormsColor);
+      pushMatrix();
+      translate(-10,-10);
+      rect(dormsXpos,buttonYPos,selectedWidth,selectedHeight);
+      popMatrix();
+    break;
+    default:
+    break;
   }
 }
 
