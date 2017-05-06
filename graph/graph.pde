@@ -84,8 +84,8 @@ color magicColor = #ff9600;
 color pointColor;
 
 void setup() {
-  fullScreen();
-  //size(1280,720);
+  //fullScreen();
+  size(1280,720);
   xPadding=width-(width-100);
   yPadding=height-500;
   
@@ -205,7 +205,7 @@ void draw() {
 void mapSlider(){
   float start= round(map(timeSlider.minHandleX,timeSlider.containerMinX,timeSlider.containerMaxX,0,705));
   float end= round(map(timeSlider.maxHandleX,timeSlider.containerMinX,timeSlider.containerMaxX,0,705));
-  println(start+" "+end);
+  println(whichButtonOn+" "+start+" "+end);
 }
 
 void mousePressed(){
