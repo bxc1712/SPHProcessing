@@ -52,9 +52,9 @@ float pSize=10;
 float xPadding;
 float yPadding;
 //Padding of Points
-float xPointPad=50;
+float xPointPad=width*.1;
 float yPointPad=60;
-float faceIconPad=-10;
+float faceIconPad=-50;
 
 // - Labels Class -
 pointLabel label;
@@ -88,7 +88,7 @@ color magicColor = #ff9600;
 color pointColor;
 
 void setup() {
-  size(1280,720);
+  fullScreen();
   
   xPadding=width-(width-100);
   yPadding=height-500;
@@ -209,9 +209,15 @@ void mousePressed(){
 void mouseDragged(){
   if(timeSlider.overMin==true){
     minX=mouseX-minOffSetX;
+    if(minX<timeSlider.containerMinX){
+      minX=timeSlider.containerMinX;
+    }
   }
   if(timeSlider.overMax==true){
     maxX=mouseX-maxOffSetX;
+    if(maxX>timeSlider.containerMaxX){
+      maxX=timeSlider.containerMaxX;
+    }
   }
 }
 
@@ -299,7 +305,7 @@ void frame(){
   xVar=entryList.get(0)*faceIconPad+xPadding;
   for(int i=0; i<5; i++){
     yVar=i*yPointPad+yPadding;
-    line(xVar,yVar,entryList.size(),yVar);
+    line(xVar,yVar,width/1.02,yVar);
   }
   
   //Smilies
@@ -335,21 +341,21 @@ void controlEvent(ControlEvent theEvent){
   entryList.clear();
   happyList.clear();
   timeList.clear();
-  println("Switched to: "+theEvent.getController().getName());
+  //println("Switched to: "+theEvent.getController().getName());
 }
 
 
 void magic(){
   selectedButton = 1;
-  println("Magic Test");
+  //println("Magic Test");
 }
 void artesano(){
   selectedButton = 2;
-  println("Artesano Test");
+  //println("Artesano Test");
 }
 void dorms(){
   selectedButton = 3;
-  println("Dorms Test");
+  //println("Dorms Test");
 }
 
 //Selected button is active
