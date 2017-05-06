@@ -89,6 +89,7 @@ color pointColor;
 
 void setup() {
   fullScreen();
+  //size(1280,720);
   
   xPadding=width-(width-100);
   yPadding=height-500;
@@ -170,6 +171,7 @@ void setup() {
      .getCaptionLabel().align(CENTER,CENTER)
      ;
   selectedButton=1;
+  timeSlider= new Slider(width,height,pointColor,minX,maxX);
 }
 
 void draw() {
@@ -196,7 +198,11 @@ void draw() {
       selectedButton = 0;
     break;
   }
-  timeSlider= new Slider(width,height,pointColor,minX,maxX);
+  
+  //////FIX
+  
+  timeSlider.draw(pointColor);
+  
   frame();
   activeButton();
   plotGraph(pointColor);

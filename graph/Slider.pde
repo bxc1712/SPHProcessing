@@ -21,7 +21,7 @@ class Slider {
   Slider(float width,float height,color graphColor,float leftHandleX,float rightHandleX) {
     screenWidth=width;
     screenHeight=height;
-    
+     
     //Default vars
     defaultY=height/1.15;
     areaColor=graphColor;
@@ -37,8 +37,12 @@ class Slider {
     overMax=overHandle(maxHandleX,defaultY,20);
     
     //Call func to make whole slider
+    
+  }
+  
+  void draw(color gColor){
     sliderContainer();
-    slider();
+    slider(gColor);
     sliderHandles(minHandleX,maxHandleX);
   }
   
@@ -49,7 +53,7 @@ class Slider {
     line(containerMinX,defaultY,containerMaxX,defaultY);
   }
   //Slider
-  void slider(){
+  void slider(color sliderColor){
     strokeWeight(10);
     stroke(areaColor);
     line(minHandleX,defaultY,maxHandleX,defaultY);
