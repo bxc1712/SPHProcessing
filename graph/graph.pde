@@ -55,19 +55,16 @@ float yPadding;
 float xPointPad=width*.1;
 float yPointPad=60;
 float faceIconPad=-50;
+//Lines
+float minX;
+float maxX;
 
 // - Labels Class -
 pointLabel label;
 
 // - Slider Class -
 Slider timeSlider;
-//Slider Stuff
-float defaultMinX;
-float defaultMaxX;
-float minX;
-float maxX;
-float minOffSetX;
-float maxOffSetX;
+
 
 // - ControlP5 Stuff -
 ControlP5 cp5;
@@ -88,8 +85,8 @@ color magicColor = #ff9600;
 color pointColor;
 
 void setup() {
-  fullScreen();
-  //size(1280,720);
+  //fullScreen();
+  size(1280,720);
   
   xPadding=width-(width-100);
   yPadding=height-500;
@@ -102,14 +99,6 @@ void setup() {
   artesanoXPos=width/2-(buttonWidth/2);
   dormsXpos=width/1.5-(buttonWidth/2);
   buttonYPos=height/2.5;
-  
-  //Slider Init
-  defaultMinX=width/3;
-  defaultMaxX=width/1.5;
-  minX=defaultMinX;
-  maxX=defaultMaxX;
-  minOffSetX=0;
-  maxOffSetX=0;
   
   //Title position values
   titleX=width/2;
@@ -171,7 +160,7 @@ void setup() {
      .getCaptionLabel().align(CENTER,CENTER)
      ;
   selectedButton=1;
-  timeSlider= new Slider(width,height,pointColor,minX,maxX);
+  timeSlider= new Slider(width,height,pointColor);
 }
 
 void draw() {
@@ -202,27 +191,28 @@ void draw() {
   //////FIX
   
   timeSlider.draw(pointColor);
-  
   frame();
   activeButton();
   plotGraph(pointColor);
 }
 
 void mousePressed(){
-  minOffSetX=mouseX-minX;
-  maxOffSetX=mouseX-maxX;
+  timeSlider.minOffSetX=mouseX-timeSlider.minHandleX;
+  timeSlider.maxOffSetX=mouseX-timeSlider.maxHandleX;
+  print("Pressed");
 }
 void mouseDragged(){
-  if(timeSlider.overMin==true){
-    minX=mouseX-minOffSetX;
-    if(minX<timeSlider.containerMinX){
-      minX=timeSlider.containerMinX;
+  if(timeSlider.overMin == true){
+    timeSlider.minHandleX = mouseX-timeSlider.minOffSetX;
+    if(timeSlider.minHandleX < timeSlider.containerMinX){
+      //timeSlider.minHandleX = timeSlider.containerMinX;
+      print("past");
     }
   }
-  if(timeSlider.overMax==true){
-    maxX=mouseX-maxOffSetX;
-    if(maxX>timeSlider.containerMaxX){
-      maxX=timeSlider.containerMaxX;
+  if(timeSlider.overMax == true){
+    timeSlider.maxHandleX = mouseX-timeSlider.maxOffSetX;
+    if(timeSlider.maxHandleX > timeSlider.containerMaxX){
+      timeSlider.maxHandleX = timeSlider.containerMaxX;
     }
   }
 }
