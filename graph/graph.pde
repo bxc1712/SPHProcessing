@@ -13,8 +13,8 @@ Table artesanoData;
 Table dormsData;
 Table magicData;
 
-int happiness;
-int happyValue;
+float happiness;
+float happyValue;
 int entryId;
 String time;
 // Coordinates
@@ -26,7 +26,7 @@ float yVar;
 String[] splitTime;
 
 //Lists for storage
-IntList happyList;
+FloatList happyList;
 IntList entryList;
 StringList timeList;
 
@@ -52,7 +52,7 @@ float pSize=10;
 float xPadding;
 float yPadding;
 //Padding of Points
-float xPointPad=width*.1;
+float xPointPad=width*.034;
 float yPointPad=60;
 float faceIconPad=-50;
 //Lines
@@ -64,7 +64,6 @@ pointLabel label;
 
 // - Slider Class -
 Slider timeSlider;
-
 
 // - ControlP5 Stuff -
 ControlP5 cp5;
@@ -118,13 +117,17 @@ void setup() {
   
   storedRows = new IntDict();
   
-  happyList = new IntList();
+  happyList = new FloatList();
   timeList = new StringList();
   entryList = new IntList();
+    
+  //artesanoData = loadTable("artesano.csv","header");
+  //dormsData = loadTable("dorms.csv","header");
+  //magicData = loadTable("magic.csv","header");
+  artesanoData = loadTable("artesanoNew.csv","header");
+  dormsData = loadTable("dormNew.csv","header");
+  magicData = loadTable("magicNew.csv","header");
   
-  artesanoData = loadTable("artesano.csv","header");
-  dormsData = loadTable("dorms.csv","header");
-  magicData = loadTable("magic.csv","header");
     
   cp5 = new ControlP5(this);
   
@@ -196,24 +199,30 @@ void draw() {
   plotGraph(pointColor);
 }
 
+void mapSlider(){
+  float start= round(map(timeSlider.minHandleX,timeSlider.containerMinX,timeSlider.containerMaxX,0,705));
+  float end= round(map(timeSlider.maxHandleX,timeSlider.containerMinX,timeSlider.containerMaxX,0,705));
+  println(start+" "+end);
+}
+
 void mousePressed(){
   timeSlider.minOffSetX=mouseX-timeSlider.minHandleX;
   timeSlider.maxOffSetX=mouseX-timeSlider.maxHandleX;
-  print("Pressed");
 }
 void mouseDragged(){
   if(timeSlider.overMin == true){
     timeSlider.minHandleX = mouseX-timeSlider.minOffSetX;
     if(timeSlider.minHandleX < timeSlider.containerMinX){
-      //timeSlider.minHandleX = timeSlider.containerMinX;
-      print("past");
+      timeSlider.minHandleX = timeSlider.containerMinX;
     }
+    mapSlider();
   }
   if(timeSlider.overMax == true){
     timeSlider.maxHandleX = mouseX-timeSlider.maxOffSetX;
     if(timeSlider.maxHandleX > timeSlider.containerMaxX){
       timeSlider.maxHandleX = timeSlider.containerMaxX;
     }
+    mapSlider();
   }
 }
 
@@ -221,8 +230,8 @@ void mouseDragged(){
 void storeData(Table locationData){
   for (TableRow row : locationData.rows()) {
     entryId = row.getInt("entry_id");
-    happiness = row.getInt("field1");
-    time = row.getString("created_at");
+    happiness = row.getFloat("field1");
+    //time = row.getString("created_at");
     
     entryList.append(entryId);
     happyList.append(happiness);
@@ -235,21 +244,17 @@ void storeData(Table locationData){
   //We will reverse the values with this
   for(int i=0;i<happyList.size();i++) {
     happyValue = happyList.get(i);
-    switch(happyValue){
-      case 0:
-        happyList.set(i,4);
-        break;
-      case 1:
-        happyList.set(i,3);
-        break;
-      case 3:
-        happyList.set(i,1);
-        break;
-      case 4:
-        happyList.set(i,0);
-        break;
-      default:
-        break;
+    if(happyValue==0){
+      happyList.set(i,4);
+    }
+    if(happyValue==1){
+      happyList.set(i,3);
+    }
+    if(happyValue==3){
+      happyList.set(i,1);
+    }
+    if(happyValue==4){
+      happyList.set(i,0);
     }
   }
 }
@@ -360,7 +365,6 @@ void activeButton(){
   boolean isArtesanoOn=cp5.getController("artesano").isMousePressed();
   boolean isDormsOn=cp5.getController("dorms").isMousePressed();
   
-  color selected = color(#ffffff);
   float selectedWidth=buttonWidth+20;
   float selectedHeight=buttonHeight+20;
   

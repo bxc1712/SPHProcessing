@@ -28,16 +28,14 @@ class Slider {
     areaColor=graphColor;
     
     //Init Container vars
-    containerMaxX=screenWidth/15;
-    containerMinX=screenWidth/1.07;
+    containerMinX=100;
+    containerMaxX=1000;
     
     //Init Handle vars
-    maxHandleX=containerMinX;
-    minHandleX=containerMaxX;
+    maxHandleX=containerMaxX;
+    minHandleX=containerMinX;
     
     //Slider Init
-    defaultMinX=width/3;
-    defaultMaxX=width/1.5;
     minOffSetX=0;
     maxOffSetX=0;
   }
