@@ -47,7 +47,7 @@ IntDict storedRows;
 
 // - Data Point Spacing -
 // Point Size
-float pSize=10;
+float pSize=7;
 //Padding of Graph
 float xPadding;
 float yPadding;
@@ -84,9 +84,8 @@ color magicColor = #ff9600;
 color pointColor;
 
 void setup() {
-  //fullScreen();
-  size(1280,720);
-  
+  fullScreen();
+  //size(1280,720);
   xPadding=width-(width-100);
   yPadding=height-500;
   
@@ -101,17 +100,17 @@ void setup() {
   
   //Title position values
   titleX=width/2;
-  titleY=height/3.5;
+  titleY=height/3.2;
   
   //Logo values
-  logoWidth=width/3.5;
-  logoHeight=height/4;
+  logoWidth=width/3.1;
+  logoHeight=height/3.5;
   
   logoX=width/2;
   logoY=height/8;
   
   font = createFont("Lato-Bold.ttf", 20);
-  titleFont = createFont("Lato-Bold.ttf", 64);
+  titleFont = createFont("Lato-Bold.ttf", 100);
   imageName=reverse(imageName); //Reverse 
   
   
@@ -192,7 +191,11 @@ void draw() {
   }
   
   //////FIX
-  
+  pushMatrix();
+  fill(pointColor);
+  textSize(20);
+  text("Interact with Slider to Change Physical Graph",width/2,height/1.05);
+  popMatrix();
   timeSlider.draw(pointColor);
   frame();
   activeButton();
@@ -215,15 +218,25 @@ void mouseDragged(){
     if(timeSlider.minHandleX < timeSlider.containerMinX){
       timeSlider.minHandleX = timeSlider.containerMinX;
     }
-    mapSlider();
   }
   if(timeSlider.overMax == true){
     timeSlider.maxHandleX = mouseX-timeSlider.maxOffSetX;
     if(timeSlider.maxHandleX > timeSlider.containerMaxX){
       timeSlider.maxHandleX = timeSlider.containerMaxX;
     }
-    mapSlider();
   }
+}
+
+void mouseReleased(){
+  float dist= timeSlider.maxHandleX-timeSlider.minHandleX;
+  float bump;
+  if(dist<50){
+    bump=50/2;
+    timeSlider.maxHandleX=timeSlider.maxHandleX+bump;
+    timeSlider.minHandleX=timeSlider.minHandleX-bump;
+    println();
+  }
+  mapSlider();
 }
 
 // Store values into Lists
@@ -261,23 +274,28 @@ void storeData(Table locationData){
 
 // Plot Graph
 void plotGraph(color pColor){
+  int getDay;
+  int getHr;
+  
   beginShape();
   for(int i=0;i<entryList.size();i++) {
-    xVar=entryList.get(i)*xPointPad+xPadding;
+    xVar=entryList.get(i)*xPointPad+xPadding-10;
     yVar=happyList.get(i)*yPointPad+yPadding;
     fill(pColor);
     stroke(pColor);
     ellipse(xVar,yVar,pSize,pSize);
     noFill();
-    strokeWeight(2);
+    strokeWeight(1);
     vertex(xVar,yVar);
   }
   endShape();
   
   // Mouse over point response
   for(int i=0;i<entryList.size();i++){
-    xVar=entryList.get(i)*xPointPad+xPadding;
+    xVar=entryList.get(i)*xPointPad+xPadding-10;
     yVar=happyList.get(i)*yPointPad+yPadding;
+    getDay=floor(entryList.get(i)/24)+1;
+    getHr=entryList.get(i);
     // Check if mouse over
     // If so show response
     if (mouseOverPoint(xVar,yVar,pSize)){
@@ -285,7 +303,7 @@ void plotGraph(color pColor){
       stroke(pColor);
       ellipse(xVar,yVar,pSize+10,pSize+10);
       // Show text box with info
-      label = new pointLabel("Test Text",xVar,yVar);
+      label = new pointLabel("Day: "+getDay,getHr+"th Hour",xVar,yVar);
     }
   }
 }

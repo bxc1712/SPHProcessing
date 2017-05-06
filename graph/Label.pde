@@ -12,11 +12,13 @@ class Label {
     //Container
     fill(255);
     rectMode(CENTER);
-    rect(x, y-50, labelW+10, 22); 
+    rect(x, y-50, labelW+10, labelH); 
     
     // Text
     fill(0);
     textAlign(CENTER);
     text(txt, x, y-25);
+
+    text(txt, x, y-100);
   }
 }

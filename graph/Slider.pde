@@ -28,14 +28,16 @@ class Slider {
     areaColor=graphColor;
     
     //Init Container vars
-    containerMinX=100;
-    containerMaxX=1000;
+    containerMinX=width/50;
+    containerMaxX=width/1.02;
     
     //Init Handle vars
     maxHandleX=containerMaxX;
     minHandleX=containerMinX;
     
     //Slider Init
+    defaultMinX=width/3;
+    defaultMaxX=width/1.5;
     minOffSetX=0;
     maxOffSetX=0;
   }
@@ -45,7 +47,7 @@ class Slider {
     overMax=overHandle(maxHandleX,defaultY,20);
     sliderContainer();
     slider(gColor);
-    sliderHandles(minHandleX,maxHandleX);
+    sliderHandles(minHandleX,maxHandleX,gColor);
   }
   
   //Slider Container
@@ -61,9 +63,13 @@ class Slider {
     line(minHandleX,defaultY,maxHandleX,defaultY);
   }
   //Slider Handles
-  void sliderHandles(float minX,float maxX){
+  void sliderHandles(float minX,float maxX, color area){
     //Handles
     //Left Handle
+    noStroke();
+    rectMode(CORNERS);
+    fill(area,25);
+    rect(minX,defaultY,maxX,height/1.75);
     stroke(100);
     strokeWeight(1);
     fill(255);
@@ -71,6 +77,7 @@ class Slider {
     ellipse(minX,defaultY,20,20);
     //Right Handle
     ellipse(maxX,defaultY,20,20);
+    
   }
   
   boolean overHandle(float x, float y, float diameter){
